@@ -4,6 +4,10 @@
 
 [腾讯API](https://lbs.qq.com/service/webService/webServiceGuide/search/webServiceDistrict#2)
 
+## 前置条件
+
+- Python 3.7+
+
 ## 使用方法
 
 ### 创建虚拟环境
