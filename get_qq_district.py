@@ -16,7 +16,7 @@ QQ_DISTRICT_LIST_URL = 'https://apis.map.qq.com/ws/district/v1/list'
 QQ_DISTRICT_CHILDREN_URL = 'https://apis.map.qq.com/ws/district/v1/getchildren'
 
 # 保存路径
-OUTPUT_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'qq_district.json')
+OUTPUT_PATH = 'qq_district.json'
 
 # QPS限制，建议适当延时
 SLEEP_SECONDS = 0.3
