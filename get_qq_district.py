@@ -2,14 +2,20 @@
 请求腾讯行政区划API获取全国所有行政区划（省、市、区县、乡镇/街道）
 腾讯API:
 https://lbs.qq.com/service/webService/webServiceGuide/search/webServiceDistrict#2
+
+注意：
+
+- 中国没有区的市包括东莞市、中山市、儋州市和嘉峪关市，这些城市没有区县，只有街道/乡镇；
+- 行政区划级别level的枚举值：1-省，2-市， 3-区，街道没有level，0-没有区的市（如东莞、中山、儋州、嘉峪关市）
+- 此4个城市在接口返回的level = 0，要特殊处理；
 """
 import os
 import requests
 import json
 import time
 
-# 腾讯地图API KEY
-QQ_MAP_KEY = os.getenv('QQ_MAP_KEY', '你的腾讯API KEY')
+# 腾讯位置服务API KEY
+QQ_MAP_KEY = os.getenv('QQ_MAP_KEY', '你的腾讯位置服务API KEY')
 
 # 腾讯行政区划API
 QQ_DISTRICT_LIST_URL = 'https://apis.map.qq.com/ws/district/v1/list'
@@ -68,11 +74,16 @@ def add_streets_to_all_counties(provinces, key):
             # 市级（level=2）
             if node.get('level') == 2:
                 city_name = node.get('fullname') or node.get('name') or ''
+                # 遍历区县级
                 for county in node.get('districts', []):
                     if county.get('level') == 3:
                         county_name = county.get('fullname') or county.get('name') or ''
                         path = f'{province_name}-{city_name}-{county_name}'
                         add_street_to_county(county, key, path, '省-市-区县')
+                    if county.get('level') == 0:
+                        # 没有区的市（如东莞、中山、儋州、嘉峪关市）
+                        path = f'{province_name}-{city_name}'
+                        add_street_to_county(county, key, path, '省-市')
             # 区县级（level=3），如北京、重庆等直辖市/特别行政区
             elif node.get('level') == 3:
                 county_name = node.get('fullname') or node.get('name') or ''
