@@ -9,7 +9,7 @@ import json
 import time
 
 # 腾讯地图API KEY
-QQ_MAP_KEY = os.getenv('QQ_MAP_KEY', '你的高德KEY')
+QQ_MAP_KEY = os.getenv('QQ_MAP_KEY', '你的腾讯API KEY')
 
 # 腾讯行政区划API
 QQ_DISTRICT_LIST_URL = 'https://apis.map.qq.com/ws/district/v1/list'
